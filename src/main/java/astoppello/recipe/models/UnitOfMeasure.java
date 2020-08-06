@@ -12,6 +12,9 @@ import javax.persistence.Id;
  */
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UnitOfMeasure {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

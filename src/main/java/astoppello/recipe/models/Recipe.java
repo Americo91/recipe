@@ -1,6 +1,9 @@
 package astoppello.recipe.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -10,6 +13,9 @@ import java.util.Set;
  * Created by @author americo stoppello on 02/08/2020
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 public class Recipe {
 

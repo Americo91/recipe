@@ -15,7 +15,7 @@
     <description>Recipe project for Spring Boot</description>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
     </properties>
 
     <dependencies>
@@ -51,6 +51,16 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>3.3.7-1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>1.11.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -62,15 +72,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.0.0-M4</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.ow2.asm</groupId>
-                        <artifactId>asm</artifactId>
-                        <version>7.3</version>
-                    </dependency>
-                </dependencies>
+                <version>2.22.0</version>
                 <configuration>
+                    <argLine>
+                        --illegal-access=permit
+                    </argLine>
                     <includes>
                         <include>**/*IntegrationTest.java</include>
                     </includes>
