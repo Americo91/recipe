@@ -5,12 +5,14 @@ import astoppello.recipe.converters.IngredientCommandToIngredient;
 import astoppello.recipe.converters.IngredientToIngredientCommand;
 import astoppello.recipe.models.Recipe;
 import astoppello.recipe.repositories.RecipeRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
 /**
  * Created by @author stopp on 08/08/2020
  */
+@Service
 public class IngredientServiceImpl implements IngredientService {
 
     private final RecipeRepository recipeRepository;
