@@ -1,5 +1,6 @@
 package astoppello.recipe.services;
 
+import astoppello.recipe.commands.RecipeCommand;
 import astoppello.recipe.models.Recipe;
 
 import java.util.Set;
@@ -12,4 +13,10 @@ public interface RecipeService {
 	Set<Recipe> getRecipes();
 
 	Recipe findById(long id);
+
+	RecipeCommand saveRecipeCommand(RecipeCommand command);
+
+	RecipeCommand findCommandById(Long id);
+
+	void deleteById(Long id);
 }

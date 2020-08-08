@@ -19,6 +19,11 @@
             th:src="@{/webjars/bootstrap/4.5.0/js/bootstrap.min.js}"></script>
 </head>
 <body>
+<!--/*@thymesVar id="recipes" type="java.util.List*/-->
+<!--/*@thymesVar id="recipe" type="astoppello.recipe.models.Recipe"*/-->
+<!--/*@thymesVar id="recipe" type="astoppello.recipe.models.Ingredient"*/-->
+<!--/*@thymesVar id="recipe" type="astoppello.recipe.models.UnitOfMeasure"*/-->
+<!--/*@thymesVar id="recipe" type="astoppello.recipe.models.Category"*/-->
 <div class="container-fluid" style="margin-top: 20px">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
@@ -37,7 +42,6 @@
                                 <ul>
                                     <li th:remove="all">cat one</li>
                                     <li th:remove="all">cat two</li>
-                                    <!--/*@thymesVar id="recipe" type="guru.springframework.domain.Category"*/-->
                                     <li th:each="category : ${recipe.categories}"
                                         th:text="${category.getDescription()}"> cat three
                                     </li>
@@ -89,8 +93,13 @@
                     </div>
                 </div>
                 <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h1 class="panel-title">Ingredients</h1>
+                    <div class="row">
+                        <div class="col-md-11 ">
+                            <h1 class="panel-title">Ingredients</h1>
+                        </div>
+                        <div class="col-md-1">
+                            <a class="btn btn-default" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}" role="button">View</a>
+                        </div>
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -142,7 +151,8 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <p th:text="${recipe.notes.recipeNotes}">Lorem ipsum dolor sit amet, consectetuer adipiscing
+                                <p th:text="${recipe?.notes?.recipeNotes}">Lorem ipsum dolor sit amet, consectetuer
+                                    adipiscing
                                     elit.
                                     Aenean
                                     commodo
