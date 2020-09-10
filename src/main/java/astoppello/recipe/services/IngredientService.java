@@ -7,5 +7,9 @@ import astoppello.recipe.commands.IngredientCommand;
  */
 public interface IngredientService {
 
-    IngredientCommand findByRecipeIdAndId(Long valueOf, Long valueOf1);
+    IngredientCommand findByRecipeIdAndIngredientId(Long recipeId, Long ingredientId);
+
+    IngredientCommand saveIngredientCommand(IngredientCommand command);
+
+    void deleteById(Long recipeId, Long IngredientId);
 }

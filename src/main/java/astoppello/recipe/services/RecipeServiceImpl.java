@@ -3,6 +3,7 @@ package astoppello.recipe.services;
 import astoppello.recipe.commands.RecipeCommand;
 import astoppello.recipe.converters.RecipeCommandToRecipe;
 import astoppello.recipe.converters.RecipeToRecipeCommand;
+import astoppello.recipe.exceptions.NotFoundException;
 import astoppello.recipe.models.Recipe;
 import astoppello.recipe.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +41,8 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe findById(long id) {
-        return recipeRepository.findById(id).orElseThrow(() -> new RuntimeException("Recipe not found"));
+        //if()
+        return recipeRepository.findById(id).orElseThrow(() -> new NotFoundException("Recipe not found for id: "+ id));
     }
 
     @Override

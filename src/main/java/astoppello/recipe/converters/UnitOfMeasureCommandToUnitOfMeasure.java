@@ -19,9 +19,9 @@ public class UnitOfMeasureCommandToUnitOfMeasure implements Converter<UnitOfMeas
         if (unitOfMeasureCommand == null) {
             return null;
         }
-        return UnitOfMeasure.builder()
-                    .id(unitOfMeasureCommand.getId())
-                    .description(unitOfMeasureCommand.getDescription())
-                    .build();
+        UnitOfMeasure uom = new UnitOfMeasure();
+        uom.setId(unitOfMeasureCommand.getId());
+        uom.setDescription(unitOfMeasureCommand.getDescription());
+        return uom;
     }
 }

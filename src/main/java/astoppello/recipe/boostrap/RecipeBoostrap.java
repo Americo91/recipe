@@ -70,7 +70,7 @@ public class RecipeBoostrap implements ApplicationListener<ContextRefreshedEvent
 		guacamoleRecipe.setNotes(guacNotes);
 
 		guacamoleRecipe.addIngredient(new Ingredient("ripe avocados", new BigDecimal(2), eachUom));
-		guacamoleRecipe.getIngredients().add(new Ingredient("salt", new BigDecimal(5), teaspoonUom, guacamoleRecipe));
+		guacamoleRecipe.addIngredient(new Ingredient("salt", new BigDecimal(5), teaspoonUom, guacamoleRecipe));
 
 		guacamoleRecipe.getCategories().add(americanCategory);
 		guacamoleRecipe.getCategories().add(mexicanCategory);

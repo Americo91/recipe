@@ -9,10 +9,10 @@ import java.util.Set;
 /**
  * Created by @author stopp on 06/08/2020
  */
-@Data
+
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class RecipeCommand {
     private Long id;
     private String description;

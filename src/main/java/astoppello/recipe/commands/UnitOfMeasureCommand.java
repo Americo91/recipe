@@ -1,17 +1,15 @@
 package astoppello.recipe.commands;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Created by @author stopp on 07/08/2020
  */
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class UnitOfMeasureCommand {
     private Long id;
     private String description;

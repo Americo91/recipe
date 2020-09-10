@@ -24,11 +24,12 @@ public class IngredientCommandToIngredient implements Converter<IngredientComman
         if (ingredientCommand == null) {
             return null;
         }
-        return Ingredient.builder()
-                 .id(ingredientCommand.getId())
-                 .amount(ingredientCommand.getAmount())
-                 .description(ingredientCommand.getDescription())
-                 .unitOfMeasure(converter.convert(ingredientCommand.getUnitOfMeasure()))
-                 .build();
+        final Ingredient ingredient = new Ingredient();
+        ingredient.setId(ingredientCommand.getId());
+        ingredient.setAmount(ingredientCommand.getAmount());
+        ingredient.setDescription(ingredientCommand.getDescription());
+        ingredient.setUnitOfMeasure(converter.convert(ingredientCommand.getUnitOfMeasure()));
+
+        return ingredient;
     }
 }

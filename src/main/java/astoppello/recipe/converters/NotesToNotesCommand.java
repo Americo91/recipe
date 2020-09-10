@@ -19,6 +19,9 @@ public class NotesToNotesCommand implements Converter<Notes, NotesCommand> {
         if (notes == null) {
             return null;
         }
-        return NotesCommand.builder().id(notes.getId()).recipeNotes(notes.getRecipeNotes()).build();
+        final NotesCommand notesCommand = new NotesCommand();
+        notesCommand.setId(notes.getId());
+        notesCommand.setRecipeNotes(notes.getRecipeNotes());
+        return notesCommand;
     }
 }

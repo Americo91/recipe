@@ -21,6 +21,9 @@ public class CategoryToCategoryCommand implements Converter<Category, CategoryCo
         if (category == null) {
             return null;
         }
-        return CategoryCommand.builder().id(category.getId()).description(category.getDescription()).build();
+        final CategoryCommand categoryCommand = new CategoryCommand();
+        categoryCommand.setId(category.getId());
+        categoryCommand.setDescription(category.getDescription());
+        return categoryCommand;
     }
 }

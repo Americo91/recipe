@@ -1,9 +1,7 @@
 package astoppello.recipe.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,10 +11,8 @@ import javax.persistence.Id;
 /**
  * Created by @author americo stoppello on 02/08/2020
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Getter
+@Setter
 @Entity
 public class UnitOfMeasure {
 	@Id

@@ -3,6 +3,7 @@ package astoppello.recipe.services;
 import astoppello.recipe.commands.RecipeCommand;
 import astoppello.recipe.converters.RecipeCommandToRecipe;
 import astoppello.recipe.converters.RecipeToRecipeCommand;
+import astoppello.recipe.exceptions.NotFoundException;
 import astoppello.recipe.models.Recipe;
 import astoppello.recipe.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,8 +15,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class RecipeServiceImplTest {
@@ -51,7 +51,8 @@ class RecipeServiceImplTest {
 
     @Test
     void findById() {
-        Recipe recipe = Recipe.builder().id(1l).build();
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
         Optional<Recipe> recipeOptional = Optional.of(recipe);
 
         when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
@@ -81,6 +82,13 @@ class RecipeServiceImplTest {
         assertNotNull(commandById, "Null recipe returned");
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository, never()).findAll();
+    }
+
+    @Test
+    void getRecipeByIdTestNotFound() throws Exception {
+        Optional<Recipe> recipeOptional = Optional.empty();
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+        assertThrows(NotFoundException.class, () -> recipeService.findById(1l));
     }
 
 

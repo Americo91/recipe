@@ -19,9 +19,9 @@ public class CategoryCommandToCategory implements Converter<CategoryCommand, Cat
         if (categoryCommand == null) {
             return null;
         }
-        return Category.builder()
-                   .id(categoryCommand.getId())
-                   .description(categoryCommand.getDescription())
-                   .build();
+        Category category = new Category();
+        category.setId(categoryCommand.getId());
+        category.setDescription(categoryCommand.getDescription());
+        return category;
     }
 }

@@ -1,6 +1,7 @@
 package astoppello.recipe.controllers;
 
 import astoppello.recipe.commands.RecipeCommand;
+import astoppello.recipe.exceptions.NotFoundException;
 import astoppello.recipe.models.Recipe;
 import astoppello.recipe.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,12 +33,14 @@ class RecipeControllerTest {
     void setUp() {
         MockitoAnnotations.initMocks(this);
         controller = new RecipeController(recipeService);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
+                                 .build();
     }
 
     @Test
     void showById() throws Exception {
-        Recipe recipe = Recipe.builder().id(1l).build();
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
 
         when(recipeService.findById(anyLong())).thenReturn(recipe);
 
@@ -47,6 +50,23 @@ class RecipeControllerTest {
                .andExpect(model().attributeExists("recipe"));
     }
 
+    @Test
+    public void testGetRecipeNotFound() throws Exception {
+        Recipe recipe = new Recipe();
+        recipe.setId(1l);
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+        mockMvc.perform(get("/recipe/1/show"))
+               .andExpect(status().isNotFound())
+               .andExpect(view().name("404error"));
+    }
+
+    @Test
+    public void testGetRecipeBadRequest() throws Exception {
+        when(recipeService.findById(anyLong())).thenThrow(NumberFormatException.class);
+        mockMvc.perform(get("/recipe/asd/show"))
+               .andExpect(status().isBadRequest())
+               .andExpect(view().name("404error"));
+    }
 
     @Test
     public void testGetNewRecipeForm() throws Exception {
@@ -88,9 +108,9 @@ class RecipeControllerTest {
 
     @Test
     void testDeleteAction() throws Exception {
-      mockMvc.perform(get("/recipe/1/delete"))
-             .andExpect(status().is3xxRedirection())
-             .andExpect(view().name("redirect:/"));
-      verify(recipeService, times(1)).deleteById(anyLong());
+        mockMvc.perform(get("/recipe/1/delete"))
+               .andExpect(status().is3xxRedirection())
+               .andExpect(view().name("redirect:/"));
+        verify(recipeService, times(1)).deleteById(anyLong());
     }
 }

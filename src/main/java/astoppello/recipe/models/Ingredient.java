@@ -8,10 +8,8 @@ import java.math.BigDecimal;
 /**
  * Created by @author americo stoppello on 02/08/2020
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Getter
+@Setter
 @EqualsAndHashCode(exclude = {"recipe"})
 @Entity
 public class Ingredient {
@@ -40,4 +38,7 @@ public class Ingredient {
 		this.recipe = recipe;
 	}
 
+	public Ingredient() {
+
+	}
 }

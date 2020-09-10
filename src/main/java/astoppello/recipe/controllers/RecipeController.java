@@ -1,11 +1,14 @@
 package astoppello.recipe.controllers;
 
 import astoppello.recipe.commands.RecipeCommand;
+import astoppello.recipe.exceptions.NotFoundException;
 import astoppello.recipe.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by @authorstopp on 06/08/2020
@@ -20,42 +23,61 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @GetMapping
-    @RequestMapping("/recipe/{id}/show")
+    @GetMapping("/recipe/{id}/show")
     public String showById(@PathVariable String id, Model model){
         log.debug("Show Id: "+id);
         model.addAttribute("recipe", recipeService.findById(Long.parseLong(id)));
         return "recipe/show";
     }
 
-    @GetMapping
-    @RequestMapping("recipe/new")
+    @GetMapping("recipe/new")
     public String newRecipe(Model model){
         model.addAttribute("recipe", new RecipeCommand());
         return "recipe/recipeform";
     }
 
-    @GetMapping
-    @RequestMapping("recipe/{id}/update")
+    @GetMapping("recipe/{id}/update")
     public String updateRecipe(@PathVariable Long id, Model model){
         log.debug("Update Id: "+id);
         model.addAttribute("recipe", recipeService.findCommandById(id));
         return "recipe/recipeform";
     }
 
-    @PostMapping
-    @RequestMapping("recipe")
+    @PostMapping("recipe")
     public String saveOrUpdate(@ModelAttribute RecipeCommand recipeCommand){
         RecipeCommand savedCommand = recipeService.saveRecipeCommand(recipeCommand);
         log.debug("saveOrUpdate Id: "+savedCommand.getId());
         return "redirect:/recipe/"+ savedCommand.getId()+"/show";
     }
 
-    @GetMapping
-    @RequestMapping("recipe/{id}/delete")
+    @GetMapping("recipe/{id}/delete")
     public String deleteById(@PathVariable Long id) {
         recipeService.deleteById(id);
         log.debug("Delete id: "+id);
         return "redirect:/";
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView handleNotFound(Exception exception) {
+        log.error("Handling not found exception");
+        log.error(exception.getMessage());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("404error");
+        modelAndView.addObject("exception", exception);
+        return modelAndView;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NumberFormatException.class)
+    public ModelAndView handleBadRequest(Exception exception) {
+        log.error("Handling bad request exception");
+        log.error(exception.getMessage());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("404error");
+        modelAndView.addObject("exception", exception);
+        return modelAndView;
+    }
+
+
 }
