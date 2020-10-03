@@ -36,6 +36,7 @@ class ImageControllerTest {
         imageController = new ImageController(imageService, recipeService);
         mockMvc = MockMvcBuilders
                 .standaloneSetup(imageController)
+                .setControllerAdvice(new ControllerExceptionHandler())
                 .build();
     }
 
@@ -75,8 +76,8 @@ class ImageControllerTest {
 
         String s = "fake image text";
         Byte[] bytes = new Byte[s.getBytes().length];
-        int i=0;
-        for(byte primByte : s.getBytes()){
+        int i = 0;
+        for (byte primByte : s.getBytes()) {
             bytes[i++] = primByte;
         }
         recipeCommand.setImage(bytes);
@@ -85,10 +86,18 @@ class ImageControllerTest {
 
         //when
         MockHttpServletResponse response = mockMvc.perform(get("/recipe/1/recipeimage"))
-                .andExpect(status().isOk())
-                .andReturn().getResponse();
+                                                  .andExpect(status().isOk())
+                                                  .andReturn()
+                                                  .getResponse();
 
         byte[] responseBytes = response.getContentAsByteArray();
         assertEquals(s.getBytes().length, responseBytes.length);
+    }
+
+    @Test
+    void testControllerImageException() throws Exception {
+        mockMvc.perform(get("/recipe/asd/image"))
+               .andExpect(status().isBadRequest())
+               .andExpect(view().name("400error"));
     }
 }

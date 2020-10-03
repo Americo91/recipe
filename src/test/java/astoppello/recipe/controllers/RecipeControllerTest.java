@@ -34,6 +34,7 @@ class RecipeControllerTest {
         MockitoAnnotations.initMocks(this);
         controller = new RecipeController(recipeService);
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
+                                 .setControllerAdvice(new ControllerExceptionHandler())
                                  .build();
     }
 
@@ -65,7 +66,7 @@ class RecipeControllerTest {
         when(recipeService.findById(anyLong())).thenThrow(NumberFormatException.class);
         mockMvc.perform(get("/recipe/asd/show"))
                .andExpect(status().isBadRequest())
-               .andExpect(view().name("404error"));
+               .andExpect(view().name("400error"));
     }
 
     @Test
@@ -87,8 +88,7 @@ class RecipeControllerTest {
         mockMvc.perform(post("/recipe")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("id", "")
-                .param("description", "some string")
-        )
+                .param("description", "some string"))
                .andExpect(status().is3xxRedirection())
                .andExpect(view().name("redirect:/recipe/2/show"));
     }
@@ -112,5 +112,19 @@ class RecipeControllerTest {
                .andExpect(status().is3xxRedirection())
                .andExpect(view().name("redirect:/"));
         verify(recipeService, times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    void testPostNewRecipeFormValidation() throws Exception {
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setId(2l);
+
+        when(recipeService.saveRecipeCommand(any())).thenReturn(recipeCommand);
+
+        mockMvc.perform(post("/recipe").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("id", ""))
+               .andExpect(status().isOk())
+               .andExpect(model().attributeExists("recipe"))
+               .andExpect(view().name("recipe/recipeform"));
+
     }
 }
