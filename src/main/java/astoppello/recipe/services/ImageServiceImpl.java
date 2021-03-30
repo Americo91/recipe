@@ -24,8 +24,7 @@ public class ImageServiceImpl implements ImageService {
         try {
         Recipe recipe = recipeRepository.findById(recipeId)
                                         .orElseThrow(() -> new RuntimeException("Recipe not found:" + recipeId));
-        Byte[] bytes = new Byte[0];
-            bytes = new Byte[file.getBytes().length];
+        Byte[] bytes = new Byte[file.getBytes().length];
         int i=0;
         for (byte b : file.getBytes()){
             bytes[i++]=b;

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
  * Created by @author stopp on 08/08/2020
  */
 @Slf4j
+
 @Controller
 public class IngredientController {
 

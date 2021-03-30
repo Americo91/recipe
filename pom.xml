@@ -16,6 +16,11 @@
 
     <properties>
         <java.version>11</java.version>
+        <!--set this to your docker acct name-->
+        <docker.image.prefix>springframeworkguru</docker.image.prefix>
+
+        <!--Set to name of project-->
+        <docker.image.name>recipedocker</docker.image.name>
     </properties>
 
     <dependencies>
@@ -150,6 +155,36 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
             </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.20.0</version>
+                <configuration>
+                    <!--<dockerHost>http://127.0.0.1:2375</dockerHost>-->
+                    <!--<dockerHost>unix:///var/run/docker.sock</dockerHost>-->
+                    <dockerHost>npipe:////./pipe/docker_engine</dockerHost>
+
+                    <verbose>true</verbose>
+                    <images>
+                        <image>
+                            <name>${docker.image.prefix}/${docker.image.name}</name>
+                            <build>
+                                <dockerFileDir>${project.basedir}/src/main/docker/</dockerFileDir>
+
+                                <!--copies artficact to docker build dir in target-->
+                                <assembly>
+                                    <descriptorRef>artifact</descriptorRef>
+                                </assembly>
+                                <tags>
+                                    <tag>latest</tag>
+                                    <tag>${project.version}</tag>
+                                </tags>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
